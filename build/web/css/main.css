@@ -1,0 +1,215 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Nov 19, 2022, 3:41:55 PM
+    Author     : CSE
+*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  /* overflow-x: hidden; */
+}
+.list- {
+  list-style-type: disc;
+}
+
+.main {
+  background-image: url(https://www.hospitalsafetygrade.org/media/image/leapfrog-anniversary-bg.jpg);
+  height: 90vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.main .content {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem;
+}
+
+@media (max-width: 760px) {
+  .main .content {
+    width: 100%;
+    padding: 1rem;
+  }
+}
+@media (min-width: 760px) {
+  .main .content {
+    width: 80%;
+    padding: 4rem;
+  }
+}
+@media (min-width: 960px) {
+  .main .content {
+    width: 60%;
+    padding: 8rem;
+  }
+}
+.main .content h1 {
+  font-weight: bold;
+  font-weight: 400;
+}
+
+.ul {
+  list-style-type: none;
+  margin: 0;
+}
+.main .bii {
+  color: green;
+  padding: 10px;
+}
+
+ul li span {
+  font-size: x-large;
+}
+
+.company {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 0;
+}
+
+.company h3,
+.f1 h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.company .images div {
+  margin: 1rem;
+}
+.company .images img {
+  width: 100%;
+  border-radius: 1rem;
+  height: 9rem;
+  background-size: cover;
+}
+
+.company .images {
+  display: grid;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+@media (max-width: 560px) {
+  .company .images {
+    grid-template-columns: repeat(1, 90%);
+  }
+}
+@media (min-width: 560px) {
+  .company .images {
+    grid-template-columns: repeat(3, 30%);
+  }
+}
+@media (min-width: 760px) {
+  .company .images {
+    grid-template-columns: repeat(4, 20%);
+  }
+}
+
+.f1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.services h1 {
+  text-align: center;
+  padding: 1rem;
+}
+
+.services p,
+.services h3 {
+  text-align: center;
+  padding: 2rem;
+}
+
+.services span {
+  color: green;
+  font-weight: 700;
+}
+.service .bi {
+  font-size: 3rem;
+  color: green;
+}
+
+.service .card-service {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.service .card-service .card {
+  margin: 2rem;
+}
+
+.list-service {
+  list-style-type: disc;
+}
+
+.card-services {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-services .icons {
+  font-size: 3rem;
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+  color: green;
+}
+
+footer .sec {
+  margin: 3rem;
+}
+footer ul li {
+  padding: 5px;
+}
+
+footer .bi {
+  font-size: medium;
+}
+
+footer ul li span {
+  font-size: small;
+  padding: 5px;
+}
+
+footer .social a {
+  color: white;
+  padding: 1rem;
+  font-size: x-large;
+}
+
+footer .social {
+  list-style: none;
+  display: flex;
+}
+
+footer .footer-sec {
+  display: grid;
+}
+
+@media (max-width: 560px) {
+  footer .footer-sec {
+    grid-template-columns: repeat(1, 90%);
+  }
+}
+@media (min-width: 560px) {
+  footer .footer-sec {
+    grid-template-columns: repeat(2, 50%);
+  }
+}
+@media (min-width: 760px) {
+  footer .footer-sec {
+    grid-template-columns: repeat(3, 32%);
+  }
+}
+
