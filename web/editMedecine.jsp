@@ -1,11 +1,15 @@
 <%-- 
-    Document   : addMedecine
-    Created on : Nov 19, 2022, 3:27:05 PM
+    Document   : editMedecine
+    Created on : Nov 23, 2022, 3:08:24 PM
     Author     : CSE
 --%>
 
 <%@page import="login.User"%>
+<%@page import="medicine.MedModel"%>
+<%@page import="medicine.MedDao"%>
+<%@page import="login.DBConnect"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -23,6 +27,7 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
             />
+
 
         <style>
             * {
@@ -100,14 +105,18 @@
                 flex-direction: column;
             }
         </style>
+    </head>
+    <body>
         <%
+            int id = Integer.parseInt(request.getParameter("id"));
+            MedDao medicine = new MedDao(DBConnect.getConnection());
+            MedModel med = MedDao.singleMedicine(id);
+            out.print(med.getName());
             User user = (User) session.getAttribute("user");
             if (user == null) {
                 response.sendRedirect("login.jsp");
             }
         %>
-    </head>
-    <body>
         <nav
             class="navbar navbar-expand-lg d-flex justify-content-between shadow-sm p-4 navbar-light bg-white"
             >
@@ -188,41 +197,46 @@
             </div>
             <div class="main">
                 <center>
-                    <h1 class="m-2">Add medicine</h1>
+                    <h1 class="m-2">Edit  medicine</h1>
                 </center>
-                <form action=MedicineServlet   method="post">
+
+                <form action=EditServlet   method="post">
                     <div class="form shadow-md rounded-2">
                         <!--<div>-->
                         <!--<label class="form-label" for=""> Medicine Image</label>-->
                         <!--<input type="file" />-->
                         <!--</div>-->
+
+                        <div>
+                            <input type="hidden" id="custId" name="id" value="<%= med.getId()%>" >
+                        </div>                    
                         <div>
                             <label class="form-label" for="">Medicine name</label>
-                            <input type="text" class="form-control"  name="name" required/>
+                            <input type="text" class="form-control"  name="name"  value="<%= med.getName()%>" required/>
                         </div>
                         <div>
                             <label class="form-label" for="">Rates</label>
-                            <input type="text" class="form-control"  name="rate" required/>
+                            <input type="text" class="form-control"  name="rate" value="<%= med.getRate()%>"  required/>
                         </div>
 
                         <div>
                             <label class="form-label" for="">Expired date</label>
-                            <input type="date" class="form-control"  name="date" required/>
+                            <input type="date" class="form-control"  name="date" value="<%= med.getDate()%>"  required/>
                         </div>
                     </div>
                     <div class="form">
                         <div>
                             <label class="form-label" for="">Quantity</label>
-                            <input type="text" class="form-control" name="quantity" required/>
+                            <input type="text" class="form-control" name="quantity" value="<%= med.getQuantity()%>" required/>
                         </div>
                         <div>
                             <label class="form-label" for="">Category</label>
-                            <input type="text" class="form-control"  name="category" required/>
+                            <input type="text" class="form-control"  name="category" value="<%= med.getCategory()%>" required/>
                         </div>
-                        <!--                        <div>
+                        <!--<div>
                                                     <label class="form-label" for="">Batch No</label>
                                                     <input type="text" class="form-control" />
-                                                </div>-->
+                            </div>-->
                         <div>
                             <label class="form-label" for="">Manufacturer name</label>
                             <!--                            <select name="" id="" name="manufacturer">
@@ -231,12 +245,11 @@
                                                             <option value="">m2</option>
                                                             <option value="">m3</option>
                                                         </select>-->
-                            <input type="text" class="form-control"  name="manufacturer" required/>
+                            <input type="text" class="form-control"  name="manufacturer"  value="<%= med.getManufacturer()%>" required/>
                         </div>
                     </div>
                     <button class="btn btn-success rounded-2   mb-4" style="border: 1px solid red" >Submit</button>
                 </form>
-
             </div>
         </div>
     </body>

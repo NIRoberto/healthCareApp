@@ -1,10 +1,11 @@
-<%-- 
-    Document   : manageMedecine
-    Created on : Nov 19, 2022, 3:27:25 PM
-    Author     : CSE
---%>
+<%@page import="login.User"%>
+<%@page import="java.util.List"%>
+<%@page import="medicine.MedModel"%>
+<%@page import="medicine.MedDao"%>
+<%@page import="login.DBConnect"%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -98,16 +99,21 @@
                 display: flex;
                 flex-direction: column;
             }
+
+            table{
+                width: 80vh;
+            }
         </style>
     </head>
     <body>
 
         <%
-            String isLogin = (String) session.getAttribute("email");
-            if (isLogin == null) {
-                response.sendRedirect("");
+            MedDao medData = new MedDao(DBConnect.getConnection());
+            List<MedModel> Med = MedDao.getAllMedidcine();
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
+                response.sendRedirect("login.jsp");
             }
-
         %>
 
         <nav
@@ -146,7 +152,7 @@
                     </ul>
                     <div class="d-flex">
                         <p class="h6 p-2">Admin</p>
-                        <a href="/index.html" class="btn btn-success py-2 px-4">Logout</a>
+                        <a href="logout.jsp" class="btn btn-success py-2 px-4">Logout</a>
                     </div>
                 </div>
             </div>
@@ -176,104 +182,71 @@
                             <span> Invoice </span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
-                        
                         <li class="sideLink"><a href="">Add Invoice </a></li>
                         <li class="sideLink"><a href="">Manage Invoice </a></li>
                         <li>
                             <span><i class="bi bi-flag"></i></span>
-                            <span>Report</span>
+                            <span>User management</span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
-                        <li class="sideLink"><a href="">Sales report </a></li>
-                        <li class="sideLink"><a href="">Product report </a></li>
+                        <li class="sideLink"><a href="addUser.jsp">Add user </a></li>
+                        <li class="sideLink"><a href="userManagement.jsp">Manage user</a></li>
                     </ul>
                 </div>
             </div>
-            <table class="table  table-bordered">
-                <thead class="">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Rate</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Manufacturer</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>
-                            <img
-                                class="h-25 w-25"
-                                src="https://i0.wp.com/www.recsmedix.com/wp-content/uploads/2018/03/c247-Image-1.jpg?fit=850%2C850&ssl=1"
-                                alt="C 24/7"
-                                />
-                        </td>
-                        <td>C24/7</td>
-                        <td>20</td>
-                        <td>200</td>
-                        <td>American</td>
-                        <td>food supplement</td>
-                        <td class="d-flex justify-space-around">
-                            <span class="m-1 btn-success"
-                                  ><i class="bi bi-pencil-square"></i
-                                ></span>
-                            <span class="text-danger m-1"
-                                  ><i class="bi bi-trash-fill"></i
-                                ></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>
-                            <img
-                                class="h-25 w-25"
-                                src="https://i0.wp.com/www.recsmedix.com/wp-content/uploads/2018/03/c247-Image-1.jpg?fit=850%2C850&ssl=1"
-                                alt="C 24/7"
-                                />
-                        </td>
-                        <td>C24/7</td>
-                        <td>20</td>
-                        <td>200</td>
-                        <td>American</td>
-                        <td>food supplement</td>
-                        <td class="d-flex justify-space-around">
-                            <span class="m-1 btn-success"
-                                  ><i class="bi bi-pencil-square"></i
-                                ></span>
-                            <span class="text-danger m-1"
-                                  ><i class="bi bi-trash-fill"></i
-                                ></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>
-                            <img
-                                class="h-25 w-25"
-                                src="https://i0.wp.com/www.recsmedix.com/wp-content/uploads/2018/03/c247-Image-1.jpg?fit=850%2C850&ssl=1"
-                                alt="C 24/7"
-                                />
-                        </td>
-                        <td>C24/7</td>
-                        <td>20</td>
-                        <td>200</td>
-                        <td>American</td>
-                        <td>food supplement</td>
-                        <td class="d-flex justify-space-around">
-                            <span class="m-1 btn-success"
-                                  ><i class="bi bi-pencil-square"></i
-                                ></span>
-                            <span class="text-danger m-1"
-                                  ><i class="bi bi-trash-fill"></i
-                                ></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <div  class=" p-5 m-5">
+
+                <h1>All medecine </h1>
+                <table class="table  table-bordered">
+                    <thead class="">
+                        <tr>
+                            <th scope="col">id</th>
+                            <!--<th scope="col">Image</th>-->
+                            <th scope="col">Name</th>
+                            <th scope="col">Rate</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Manufacturer</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (int i = 0; i < Med.size(); i++) {%>
+
+                        <tr  >
+                            <th scope="row"><%=  Med.get(i).getId()%></th>
+                            <!--                            <td>
+                                                            <img
+                                                                class="h-25 w-25"
+                                                                src="https://i0.wp.com/www.recsmedix.com/wp-content/uploads/2018/03/c247-Image-1.jpg?fit=850%2C850&ssl=1"
+                                                                alt="C 24/7"
+                                                                />
+                                                        </td>-->
+                            <td><%=  Med.get(i).getName()%></td>
+                            <td><%=  Med.get(i).getRate()%></td>
+                            <td><%=  Med.get(i).getQuantity()%></td>
+                            <td><%=  Med.get(i).getManufacturer()%></td>
+                            <td><%=  Med.get(i).getCategory()%></td>
+                            <td class="d-flex justify-space-around">
+                                <!-- Button trigger modal -->
+                                <a  href="editMedecine.jsp?id=<%= Med.get(i).getId()%>" class="btn btn-success m-1" data-toggle="modal" data-target="#exampleModalLong">
+                                    Edit
+                                </a>
+
+                                <a  href="DeleteMedServlet?id=<%= Med.get(i).getId()%>" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
+                                    delete 
+                                </a>
+                            </td>
+                        </tr>
+                        <%  }%>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     </body>
 </html>

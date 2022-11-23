@@ -10,17 +10,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import login.DBConnect;
-import login.UserDatabase;
-import login.User;
+import medicine.MedDao;
+import medicine.MedModel;
 
 /**
  *
  * @author CSE
  */
-@WebServlet(urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/EditServlet"})
+public class EditServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,32 +38,46 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet EditServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            String email  =  request.getParameter("email");
-            String password =  request.getParameter("password");
-            try{
-             UserDatabase db = new UserDatabase(DBConnect.getConnection());
-             User user   =  db.Login(email, password);
-             
-             if(user != null){
-                HttpSession session =  request.getSession();
-                session.setAttribute("user", user);
-                response.sendRedirect("pharmacy.jsp");
+
+            try {
+                int id = Integer.parseInt(request.getParameter("id"));
+                String dates = request.getParameter("date");
+                String quantity = request.getParameter("quantity");
+                String name = request.getParameter("name");
+                String rate = request.getParameter("rate");
+                String manufacturer = request.getParameter("manufacturer");
+                String category = request.getParameter("category");
+
+                MedModel medecine = new MedModel();
+
+                medecine.setName(name);
+                medecine.setCategory(category);
+                medecine.setDate(dates);
+                medecine.setManufacturer(manufacturer);
+                medecine.setQuantityl(quantity);
+                medecine.setRate(rate);
+                medecine.setId(id);
+
+                MedDao dao = new MedDao(DBConnect.getConnection());
+
+                boolean result = dao.editMedicine(medecine);
+                if (result) {
+                    out.print("updated successfully");
+                    response.sendRedirect("manageMedecine.jsp");
+                } else {
+                    out.print("failed  to update");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            else{ 
-            out.print("user not found");
-            }
-            }
-            catch(Exception e){
-              out.println(e);
-            }
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+
+            out.println("<h1>Servlet EditServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

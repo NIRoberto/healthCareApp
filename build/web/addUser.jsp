@@ -1,6 +1,6 @@
 <%-- 
-    Document   : addMedecine
-    Created on : Nov 19, 2022, 3:27:05 PM
+    Document   : pharmacy
+    Created on : Nov 19, 2022, 3:26:15 PM
     Author     : CSE
 --%>
 
@@ -22,8 +22,7 @@
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
-            />
-
+            />`
         <style>
             * {
                 margin: 0;
@@ -34,8 +33,6 @@
             body .content {
                 display: grid;
                 grid-template-columns: 15% 85%;
-
-                grid-template-rows: auto;
             }
 
             body .content .sidebar {
@@ -61,28 +58,13 @@
             body .content ul li:hover {
                 background-color: rgb(20, 110, 68);
             }
-            body .main form {
-                /* grid-template-rows: repeat(2, 50%); */
+            body .main {
+                display: grid;
+                grid-template-columns: repeat(2, 50%);
+                grid-template-rows: repeat(2, 50%);
+                place-items: center;
                 gap: 0rem;
             }
-
-            body .main form {
-                background-color: white;
-                display: grid;
-                place-items: center;
-                grid-template-columns: repeat(2, 50%);
-            }
-            body .main form .form {
-                /* border: 1px solid red; */
-                display: flex;
-                flex-direction: column;
-                /* justify-content: space-around; */
-            }
-            body .main form .form div {
-                display: flex;
-                flex-direction: column;
-            }
-
             body .main div {
                 padding: 2rem;
                 display: flex;
@@ -99,18 +81,37 @@
                 display: flex;
                 flex-direction: column;
             }
-        </style>
-        <%
-            User user = (User) session.getAttribute("user");
-            if (user == null) {
-                response.sendRedirect("login.jsp");
+            .content .main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
-        %>
+            form {
+                display: flex;
+                flex-direction: column;
+
+                /* margin-top: 13rem; */
+            }
+
+            form div {
+                display: flex;
+                flex-direction: column;
+            }
+
+        </style>
+
+
     </head>
     <body>
         <nav
             class="navbar navbar-expand-lg d-flex justify-content-between shadow-sm p-4 navbar-light bg-white"
             >
+            <%
+                User user = (User) session.getAttribute("user");
+                if (user == null) {
+                    response.sendRedirect("login.jsp");
+                }
+            %>
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img
@@ -120,7 +121,7 @@
                         height="24"
                         class="rounded m-2"
                         />
-                    HopeSolution
+                    HopeSolution 
                 </a>
                 <button
                     class="navbar-toggler"
@@ -164,7 +165,7 @@
                             <span>Medicine</span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
-                        <li class="sideLink"><a href="addMedicine.jsp"> Add Medicine </a></li>
+                        <li class="sideLink"><a href="addMedecine.jsp"> Add Medicine </a></li>
                         <li class="sideLink"><a href="manageMedecine.jsp"> Manage medicine </a></li>
                         <li><a href="">Manufacturer</a></li>
                         <li>
@@ -174,7 +175,6 @@
                         </li>
                         <li class="sideLink"><a href="">Add Invoice </a></li>
                         <li class="sideLink"><a href="">Manage Invoice </a></li>
-                            <%  if (user.getRole().equals("admin")) { %>
                         <li>
                             <span><i class="bi bi-flag"></i></span>
                             <span>User Management</span>
@@ -182,61 +182,34 @@
                         </li>
                         <li class="sideLink"><a href="addUser.jsp">Add user </a></li>
                         <li class="sideLink"><a href="userManagement.jsp">Manage user</a></li>
-                            <% }%>
                     </ul>
                 </div>
             </div>
             <div class="main">
-                <center>
-                    <h1 class="m-2">Add medicine</h1>
-                </center>
-                <form action=MedicineServlet   method="post">
-                    <div class="form shadow-md rounded-2">
-                        <!--<div>-->
-                        <!--<label class="form-label" for=""> Medicine Image</label>-->
-                        <!--<input type="file" />-->
-                        <!--</div>-->
-                        <div>
-                            <label class="form-label" for="">Medicine name</label>
-                            <input type="text" class="form-control"  name="name" required/>
-                        </div>
-                        <div>
-                            <label class="form-label" for="">Rates</label>
-                            <input type="text" class="form-control"  name="rate" required/>
-                        </div>
-
-                        <div>
-                            <label class="form-label" for="">Expired date</label>
-                            <input type="date" class="form-control"  name="date" required/>
-                        </div>
+                <form action="RegisterServlet"  method="post">
+                    <h1>Add user</h1>
+                    <div>
+                        <label class="form-label"> User name: </label>
+                        <input type="text" class="form-control" name="name" required/>
                     </div>
-                    <div class="form">
-                        <div>
-                            <label class="form-label" for="">Quantity</label>
-                            <input type="text" class="form-control" name="quantity" required/>
-                        </div>
-                        <div>
-                            <label class="form-label" for="">Category</label>
-                            <input type="text" class="form-control"  name="category" required/>
-                        </div>
-                        <!--                        <div>
-                                                    <label class="form-label" for="">Batch No</label>
-                                                    <input type="text" class="form-control" />
-                                                </div>-->
-                        <div>
-                            <label class="form-label" for="">Manufacturer name</label>
-                            <!--                            <select name="" id="" name="manufacturer">
-                                                            <option value="">----</option>
-                                                            <option value="">m1</option>
-                                                            <option value="">m2</option>
-                                                            <option value="">m3</option>
-                                                        </select>-->
-                            <input type="text" class="form-control"  name="manufacturer" required/>
-                        </div>
+                    <div>
+                        <label class="form-label"> Email </label>
+                        <input type="email" class="form-control" name="email" required/>
                     </div>
-                    <button class="btn btn-success rounded-2   mb-4" style="border: 1px solid red" >Submit</button>
+                    <div>
+                        <label class="form-label"> Password </label>
+                        <input type="password" class="form-control" name="password" required/>
+                    </div>
+                    <!-- comment -->
+                    <div>
+                        <label class="form-label"> Password </label>
+                        <input type="text" placeholder="admin or local"  class="form-control" name="role" required/>
+                    </div>
+                    <div>
+                        <button   class="btn btn-success">Save</button>
+               
+                    </div>
                 </form>
-
             </div>
         </div>
     </body>

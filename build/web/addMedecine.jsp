@@ -4,6 +4,7 @@
     Author     : CSE
 --%>
 
+<%@page import="login.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,6 +100,12 @@
                 flex-direction: column;
             }
         </style>
+        <%
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
+                response.sendRedirect("login.jsp");
+            }
+        %>
     </head>
     <body>
         <nav
@@ -137,7 +144,7 @@
                     </ul>
                     <div class="d-flex">
                         <p class="h6 p-2">Admin</p>
-                        <a href="/index.html" class="btn btn-success py-2 px-4">Logout</a>
+                        <a href="logout.jsp" class="btn btn-success py-2 px-4">Logout</a>
                     </div>
                 </div>
             </div>
@@ -157,7 +164,7 @@
                             <span>Medicine</span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
-                     <li class="sideLink"><a href="addMedecine.jsp"> Add Medicine </a></li>
+                        <li class="sideLink"><a href="addMedicine.jsp"> Add Medicine </a></li>
                         <li class="sideLink"><a href="manageMedecine.jsp"> Manage medicine </a></li>
                         <li><a href="">Manufacturer</a></li>
                         <li>
@@ -167,13 +174,15 @@
                         </li>
                         <li class="sideLink"><a href="">Add Invoice </a></li>
                         <li class="sideLink"><a href="">Manage Invoice </a></li>
+                            <%  if (user.getRole().equals("admin")) { %>
                         <li>
                             <span><i class="bi bi-flag"></i></span>
-                            <span>Report</span>
+                            <span>User Management</span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
-                        <li class="sideLink"><a href="">Sales report </a></li>
-                        <li class="sideLink"><a href="">Product report </a></li>
+                        <li class="sideLink"><a href="addUser.jsp">Add user </a></li>
+                        <li class="sideLink"><a href="userManagement.jsp">Manage user</a></li>
+                            <% }%>
                     </ul>
                 </div>
             </div>
@@ -181,52 +190,53 @@
                 <center>
                     <h1 class="m-2">Add medicine</h1>
                 </center>
-                <form action="">
+                <form action=MedicineServlet   method="post">
                     <div class="form shadow-md rounded-2">
                         <!--<div>-->
-                            <!--<label class="form-label" for=""> Medicine Image</label>-->
-                            <!--<input type="file" />-->
+                        <!--<label class="form-label" for=""> Medicine Image</label>-->
+                        <!--<input type="file" />-->
                         <!--</div>-->
                         <div>
-                            <label class="form-label" for="">Quantity</label>
-                            <input type="text" class="form-control" />
+                            <label class="form-label" for="">Medicine name</label>
+                            <input type="text" class="form-control"  name="name" required/>
                         </div>
                         <div>
-                            <label class="form-label" for="">MRP</label>
-                            <input type="text" class="form-control" />
+                            <label class="form-label" for="">Rates</label>
+                            <input type="text" class="form-control"  name="rate" required/>
                         </div>
+
                         <div>
                             <label class="form-label" for="">Expired date</label>
-                            <input type="date" class="form-control" />
+                            <input type="date" class="form-control"  name="date" required/>
                         </div>
                     </div>
                     <div class="form">
                         <div>
-                            <label class="form-label" for="">Medicine name</label>
-                            <input type="text" class="form-control" />
+                            <label class="form-label" for="">Quantity</label>
+                            <input type="text" class="form-control" name="quantity" required/>
                         </div>
                         <div>
-                            <label class="form-label" for="">Rate</label>
-                            <input type="text" class="form-control" />
+                            <label class="form-label" for="">Category</label>
+                            <input type="text" class="form-control"  name="category" required/>
                         </div>
-                        <div>
-                            <label class="form-label" for="">Batch No</label>
-                            <input type="text" class="form-control" />
-                        </div>
+                        <!--                        <div>
+                                                    <label class="form-label" for="">Batch No</label>
+                                                    <input type="text" class="form-control" />
+                                                </div>-->
                         <div>
                             <label class="form-label" for="">Manufacturer name</label>
-                            <select name="" id="">
-                                <option value="">----</option>
-                                <option value="">m1</option>
-                                <option value="">m2</option>
-                                <option value="">m3</option>
-                            </select>
+                            <!--                            <select name="" id="" name="manufacturer">
+                                                            <option value="">----</option>
+                                                            <option value="">m1</option>
+                                                            <option value="">m2</option>
+                                                            <option value="">m3</option>
+                                                        </select>-->
+                            <input type="text" class="form-control"  name="manufacturer" required/>
                         </div>
                     </div>
+                    <button class="btn btn-success rounded-2   mb-4" style="border: 1px solid red" >Submit</button>
                 </form>
-                <center>
-                    <button class="btn btn-success rounded-2 w-75 mb-4">Submit</button>
-                </center>
+
             </div>
         </div>
     </body>

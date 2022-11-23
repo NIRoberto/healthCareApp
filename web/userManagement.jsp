@@ -1,11 +1,7 @@
-<%-- 
-    Document   : addMedecine
-    Created on : Nov 19, 2022, 3:27:05 PM
-    Author     : CSE
---%>
-
+<%@page import="login.UserDatabase"%>
 <%@page import="login.User"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="login.DBConnect"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -99,15 +95,23 @@
                 display: flex;
                 flex-direction: column;
             }
+
+            table{
+                width: 80vh;
+            }
         </style>
+    </head>
+    <body>
+
         <%
+            UserDatabase userData = new UserDatabase(DBConnect.getConnection());
+            List<User> users = UserDatabase.getAllUsers();
             User user = (User) session.getAttribute("user");
             if (user == null) {
                 response.sendRedirect("login.jsp");
             }
         %>
-    </head>
-    <body>
+
         <nav
             class="navbar navbar-expand-lg d-flex justify-content-between shadow-sm p-4 navbar-light bg-white"
             >
@@ -164,8 +168,10 @@
                             <span>Medicine</span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
-                        <li class="sideLink"><a href="addMedicine.jsp"> Add Medicine </a></li>
+
+                        <li class="sideLink"><a href="addMedecine.jsp"> Add Medicine </a></li>
                         <li class="sideLink"><a href="manageMedecine.jsp"> Manage medicine </a></li>
+
                         <li><a href="">Manufacturer</a></li>
                         <li>
                             <span><i class="bi bi-receipt"></i></span>
@@ -174,7 +180,6 @@
                         </li>
                         <li class="sideLink"><a href="">Add Invoice </a></li>
                         <li class="sideLink"><a href="">Manage Invoice </a></li>
-                            <%  if (user.getRole().equals("admin")) { %>
                         <li>
                             <span><i class="bi bi-flag"></i></span>
                             <span>User Management</span>
@@ -182,62 +187,50 @@
                         </li>
                         <li class="sideLink"><a href="addUser.jsp">Add user </a></li>
                         <li class="sideLink"><a href="userManagement.jsp">Manage user</a></li>
-                            <% }%>
                     </ul>
                 </div>
             </div>
-            <div class="main">
-                <center>
-                    <h1 class="m-2">Add medicine</h1>
-                </center>
-                <form action=MedicineServlet   method="post">
-                    <div class="form shadow-md rounded-2">
-                        <!--<div>-->
-                        <!--<label class="form-label" for=""> Medicine Image</label>-->
-                        <!--<input type="file" />-->
-                        <!--</div>-->
-                        <div>
-                            <label class="form-label" for="">Medicine name</label>
-                            <input type="text" class="form-control"  name="name" required/>
-                        </div>
-                        <div>
-                            <label class="form-label" for="">Rates</label>
-                            <input type="text" class="form-control"  name="rate" required/>
-                        </div>
+            <div  class=" p-5 m-5">
+                <h1>All medecine </h1>
+                <table class="table  table-bordered">
+                    <thead class="">
+                        <tr>
+                            <th scope="col">id</th>
+                            <!--<th scope="col">Image</th>-->
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Password</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (int i = 0; i < users.size(); i++) {%>
+                        <tr  >
+                            <th scope="row"><%=  users.get(i).getId()%></th>
+                            <td><%=  users.get(i).getName()%></td>
+                            <td><%=  users.get(i).getEmail()%></td>
+                            <td><%=  users.get(i).getPassword()%></td>
+                            <td><%=  users.get(i).getRole()%></td>
+                            <td class="d-flex justify-space-around">
+                                <!-- Button trigger modal -->
+                                <a  href="editMedecine.jsp?id=<%= users.get(i).getId()%>" class="btn btn-success m-1" data-toggle="modal" data-target="#exampleModalLong">
+                                    Edit
+                                </a>
 
-                        <div>
-                            <label class="form-label" for="">Expired date</label>
-                            <input type="date" class="form-control"  name="date" required/>
-                        </div>
-                    </div>
-                    <div class="form">
-                        <div>
-                            <label class="form-label" for="">Quantity</label>
-                            <input type="text" class="form-control" name="quantity" required/>
-                        </div>
-                        <div>
-                            <label class="form-label" for="">Category</label>
-                            <input type="text" class="form-control"  name="category" required/>
-                        </div>
-                        <!--                        <div>
-                                                    <label class="form-label" for="">Batch No</label>
-                                                    <input type="text" class="form-control" />
-                                                </div>-->
-                        <div>
-                            <label class="form-label" for="">Manufacturer name</label>
-                            <!--                            <select name="" id="" name="manufacturer">
-                                                            <option value="">----</option>
-                                                            <option value="">m1</option>
-                                                            <option value="">m2</option>
-                                                            <option value="">m3</option>
-                                                        </select>-->
-                            <input type="text" class="form-control"  name="manufacturer" required/>
-                        </div>
-                    </div>
-                    <button class="btn btn-success rounded-2   mb-4" style="border: 1px solid red" >Submit</button>
-                </form>
+                                <a  href="DeleteMedServlet?id=<%= users.get(i).getId()%>" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
+                                    delete 
+                                </a>
+                            </td>
+                        </tr>
+                        <%  }%>
 
+                    </tbody>
+                </table>
             </div>
         </div>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     </body>
 </html>

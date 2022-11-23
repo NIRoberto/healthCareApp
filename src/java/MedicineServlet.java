@@ -10,17 +10,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import login.DBConnect;
-import login.UserDatabase;
-import login.User;
+import medicine.MedDao;
+import medicine.MedModel;
 
 /**
  *
  * @author CSE
  */
-@WebServlet(urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/MedicineServlet"})
+public class MedicineServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,32 +38,34 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet MedicineServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            String email  =  request.getParameter("email");
-            String password =  request.getParameter("password");
+            
+            String dates =  request.getParameter("date");
+            String quantity  =  request.getParameter("quantity");
+            String name =  request.getParameter("name");
+            String rate  =  request.getParameter("rate");           
+            String manufacturer  =  request.getParameter("manufacturer");
+            String category =  request.getParameter("category");
+             int   randomNumber  =  (int) Math.random();
+            MedModel   med  =  new MedModel(name, quantity, dates, rate, category, manufacturer,randomNumber);
             try{
-             UserDatabase db = new UserDatabase(DBConnect.getConnection());
-             User user   =  db.Login(email, password);
-             
-             if(user != null){
-                HttpSession session =  request.getSession();
-                session.setAttribute("user", user);
-                response.sendRedirect("pharmacy.jsp");
-            }
-            else{ 
-            out.print("user not found");
-            }
+                MedDao dao =  new MedDao(DBConnect.getConnection());
+                if(dao.addMedicine(med)){
+                 response.sendRedirect("pharmacy.jsp");
+                }
+                else{
+                    out.print("Something went wrong");
+                }
             }
             catch(Exception e){
-              out.println(e);
+                e.printStackTrace();
             }
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+                   
             out.println("</body>");
             out.println("</html>");
         }
-       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

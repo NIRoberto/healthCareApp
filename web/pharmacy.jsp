@@ -22,8 +22,7 @@
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
-            />
-
+            />`
         <style>
             * {
                 margin: 0;
@@ -83,10 +82,10 @@
                 flex-direction: column;
             }
         </style>
+        
+        
     </head>
     <body>
-        
-   
         <nav
             class="navbar navbar-expand-lg d-flex justify-content-between shadow-sm p-4 navbar-light bg-white"
             >
@@ -96,8 +95,6 @@
                     response.sendRedirect("login.jsp");
                   }            
             %>
-            
-            
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img
@@ -152,7 +149,7 @@
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
                         <li class="sideLink"><a href="addMedecine.jsp"> Add Medicine </a></li>
-                        <li class="sideLink"><a href="manageMedecine.jsp"> Manage medicine </a></li>
+                               <li class="sideLink"><a href="manageMedecine.jsp"> Manage medicine </a></li>
                         <li><a href="">Manufacturer</a></li>
                         <li>
                             <span><i class="bi bi-receipt"></i></span>
@@ -161,13 +158,15 @@
                         </li>
                         <li class="sideLink"><a href="">Add Invoice </a></li>
                         <li class="sideLink"><a href="">Manage Invoice </a></li>
+                        <%  if(user.getRole().equals("admin")) { %>
                         <li>
                             <span><i class="bi bi-flag"></i></span>
-                            <span>Report</span>
+                            <span>User Management</span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
-                        <li class="sideLink"><a href="">Sales report </a></li>
-                        <li class="sideLink"><a href="">Product report </a></li>
+                      <li class="sideLink"><a href="addUser.jsp">Add user </a></li>
+                      <li class="sideLink"><a href="userManagement.jsp">Manage user</a></li>
+                      <% } %>
                     </ul>
                 </div>
             </div>

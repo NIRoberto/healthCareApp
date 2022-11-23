@@ -10,17 +10,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import login.DBConnect;
-import login.UserDatabase;
-import login.User;
+import medicine.MedDao;
 
 /**
  *
  * @author CSE
  */
-@WebServlet(urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/DeleteMedServlet"})
+public class DeleteMedServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,32 +37,18 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet DeleteMedServlet</title>");            
             out.println("</head>");
+            
+            int id  =  Integer.parseInt(request.getParameter("id"));
+             MedDao  med   =  new  MedDao(DBConnect.getConnection());
+            out.print( med.deleteMedicine(id));
+            response.sendRedirect("manageMedecine.jsp");
             out.println("<body>");
-            String email  =  request.getParameter("email");
-            String password =  request.getParameter("password");
-            try{
-             UserDatabase db = new UserDatabase(DBConnect.getConnection());
-             User user   =  db.Login(email, password);
-             
-             if(user != null){
-                HttpSession session =  request.getSession();
-                session.setAttribute("user", user);
-                response.sendRedirect("pharmacy.jsp");
-            }
-            else{ 
-            out.print("user not found");
-            }
-            }
-            catch(Exception e){
-              out.println(e);
-            }
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteMedServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

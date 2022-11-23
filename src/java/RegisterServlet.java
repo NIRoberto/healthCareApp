@@ -5,22 +5,24 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import login.DBConnect;
-import login.UserDatabase;
 import login.User;
+import login.UserDatabase;
+import medicine.MedDao;
 
 /**
  *
  * @author CSE
  */
-@WebServlet(urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/RegisterServlet"})
+public class RegisterServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,32 +40,62 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet RegisterServlet</title>");
+            
+            out.print("         <link\n" +
+"            href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\"\n" +
+"            rel=\"stylesheet\"\n" +
+"            integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\"\n" +
+"            crossorigin=\"anonymous\"\n" +
+"            />\n" +
+"        <link\n" +
+"            rel=\"stylesheet\"\n" +
+"            href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css\"\n" +
+"            /> ");
             out.println("</head>");
             out.println("<body>");
-            String email  =  request.getParameter("email");
-            String password =  request.getParameter("password");
-            try{
-             UserDatabase db = new UserDatabase(DBConnect.getConnection());
-             User user   =  db.Login(email, password);
-             
-             if(user != null){
-                HttpSession session =  request.getSession();
-                session.setAttribute("user", user);
-                response.sendRedirect("pharmacy.jsp");
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            String role = request.getParameter("role");
+            int id = (int) Math.random();
+            User user = new User(id, name, email, password, role);
+            try {
+                UserDatabase dao = new UserDatabase(DBConnect.getConnection());
+                List<User>  allUsers=  UserDatabase.getAllUsers();
+                boolean checkEmail=true;
+                boolean checkName=true;
+                
+                 for(int i=0; i<allUsers.size();i++){
+                  if(user.getEmail().equals(allUsers.get(i).getEmail()) ){
+                      checkEmail=false;
+                      break;
+                  }
+                  else if(user.getName().equals(allUsers.get(i).getName())){
+                      checkName=false;
+                  }
+                 }
+                if (dao.Register(user) && checkEmail && checkName) {
+                    response.sendRedirect("pharmacy.jsp");
+                } else {
+                    if(checkEmail){
+                        out.print(email+"has been taken ");
+                        out.print("<a class=\"btn btn-success\" href=\"addUser.jsp\">Back to register </a>");
+                        
+                    }
+                    else if(checkName){
+                        out.print(name+" has been taken by other ");
+                           out.print("<a class=\"btn btn-success\" href=\"addUser.jsp\">Back to register </a>");
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            else{ 
-            out.print("user not found");
-            }
-            }
-            catch(Exception e){
-              out.println(e);
-            }
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            
+//            out.println("<h1>Servlet RegisterServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
