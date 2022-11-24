@@ -11,15 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import login.DBConnect;
+import login.UserDatabase;
 import medicine.MedDao;
-import medicine.MedModel;
 
 /**
  *
  * @author CSE
  */
-@WebServlet(urlPatterns = {"/MedicineServlet"})
-public class MedicineServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/DeleteUserServlet"})
+public class DeleteUserServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,38 +38,14 @@ public class MedicineServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MedicineServlet</title>");
-            out.println("         <link\n"
-                    + "            href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\"\n"
-                    + "            rel=\"stylesheet\"\n"
-                    + "            integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\"\n"
-                    + "            crossorigin=\"anonymous\"\n"
-                    + "            />\n"
-                    + "        <link\n"
-                    + "            rel=\"stylesheet\"\n"
-                    + "            href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css\"\n"
-                    + "            /> ");
+            out.println("<title>Servlet DeleteUserServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-
-            String dates = request.getParameter("date");
-            String quantity = request.getParameter("quantity");
-            String name = request.getParameter("name");
-            String rate = request.getParameter("rate");
-            String manufacturer = request.getParameter("manufacturer");
-            String category = request.getParameter("category");
-            int randomNumber = (int) Math.random();
-            MedModel med = new MedModel(name, quantity, dates, rate, category, manufacturer, randomNumber);
-            try {
-                MedDao dao = new MedDao(DBConnect.getConnection());
-                if (dao.addMedicine(med)) {
-                     response.sendRedirect("addMedecine.jsp");
-                } else {
-                    out.print("Something went wrong");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+             int id  =  Integer.parseInt(request.getParameter("id"));
+             UserDatabase  med   =  new  UserDatabase(DBConnect.getConnection());
+            out.print( med.deleteUser(id));
+            response.sendRedirect("userManagement.jsp");
+//            out.println("<h1>Servlet DeleteUserServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

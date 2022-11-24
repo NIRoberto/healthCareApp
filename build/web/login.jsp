@@ -72,12 +72,12 @@
     />
   </head>
   <body>
-      <%-- 
+      <%
               String   isLogin = (String) session.getAttribute("email");
                if(isLogin != null){
-                    response.sendRedirect("pharmacy.jsp");
+                    response.sendRedirect("addMedecine.jsp");
                   }            
-        --%>
+        %>
         
       <div class="loginCard shadow-sm rounded-md">
         <div class="image">

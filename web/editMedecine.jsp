@@ -111,7 +111,6 @@
             int id = Integer.parseInt(request.getParameter("id"));
             MedDao medicine = new MedDao(DBConnect.getConnection());
             MedModel med = MedDao.singleMedicine(id);
-            out.print(med.getName());
             User user = (User) session.getAttribute("user");
             if (user == null) {
                 response.sendRedirect("login.jsp");
@@ -145,14 +144,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="index.jsp">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
                         </li>
                     </ul>
                     <div class="d-flex">
-                        <p class="h6 p-2">Admin</p>
+                        <p class="h6 p-2">User Logged in</p>
                         <a href="logout.jsp" class="btn btn-success py-2 px-4">Logout</a>
                     </div>
                 </div>
@@ -164,8 +163,8 @@
                     <ul>
                         <li>
                             <a href="">
-                                <span><i class="bi bi-speedometer"></i></span>
-                                <span> <i class="bi bi-box2-heart"></i> Dashboard </span>
+                                <!--<span><i class="bi bi-speedometer"></i></span>-->
+                                <!--<span> <i class="bi bi-box2-heart"></i> Dashboard </span>-->
                             </a>
                         </li>
                         <li>
@@ -176,13 +175,13 @@
                         <li class="sideLink"><a href="addMedicine.jsp"> Add Medicine </a></li>
                         <li class="sideLink"><a href="manageMedecine.jsp"> Manage medicine </a></li>
                         <li><a href="">Manufacturer</a></li>
-                        <li>
+<!--                        <li>
                             <span><i class="bi bi-receipt"></i></span>
                             <span> Invoice </span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
                         <li class="sideLink"><a href="">Add Invoice </a></li>
-                        <li class="sideLink"><a href="">Manage Invoice </a></li>
+                        <li class="sideLink"><a href="">Manage Invoice </a></li>-->
                             <%  if (user.getRole().equals("admin")) { %>
                         <li>
                             <span><i class="bi bi-flag"></i></span>

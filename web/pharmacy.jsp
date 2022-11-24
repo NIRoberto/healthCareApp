@@ -91,9 +91,10 @@
             >
               <% 
                 User user = (User) session.getAttribute("user");
-               if(user == null){
+               if(user==null){
                     response.sendRedirect("login.jsp");
                   }            
+                out.print(user);
             %>
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
@@ -127,7 +128,7 @@
                         </li>
                     </ul>
                     <div class="d-flex">
-                        <p class="h6 p-2">Admin</p>
+                        <p class="h6 p-2">User logged in </p>
                         <a href="logout.jsp" class="btn btn-success py-2 px-4">Logout</a>
                     </div>
                 </div>

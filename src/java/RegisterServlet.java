@@ -42,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
             out.println("<head>");
             out.println("<title>Servlet RegisterServlet</title>");
             
-            out.print("         <link\n" +
+            out.println("         <link\n" +
 "            href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\"\n" +
 "            rel=\"stylesheet\"\n" +
 "            integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\"\n" +
@@ -76,16 +76,15 @@ public class RegisterServlet extends HttpServlet {
                   }
                  }
                 if (dao.Register(user) && checkEmail && checkName) {
-                    response.sendRedirect("pharmacy.jsp");
+                   response.sendRedirect("addMedecine.jsp");
                 } else {
                     if(checkEmail){
-                        out.print(email+"has been taken ");
-                        out.print("<a class=\"btn btn-success\" href=\"addUser.jsp\">Back to register </a>");
-                        
+                        out.println("<h1 class=\"text-danger\">"+email+" has been taken by other </h1>");
+                        out.println("<a class=\"btn btn-success\" href=\"addUser.jsp\">Back to register </a>");
                     }
                     else if(checkName){
-                        out.print(name+" has been taken by other ");
-                           out.print("<a class=\"btn btn-success\" href=\"addUser.jsp\">Back to register </a>");
+                        out.println("<h5 class=\"text-danger\">"+name+" has been taken by other </h5>");
+                        out.println("<a class=\"btn btn-success\" href=\"addUser.jsp\">Back to register </a>");
                     }
                 }
             } catch (Exception e) {

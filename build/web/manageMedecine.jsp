@@ -164,7 +164,7 @@
                         <li>
                             <a href="">
                                 <span><i class="bi bi-speedometer"></i></span>
-                                <span> <i class="bi bi-box2-heart"></i> Dashboard </span>
+                                <!--<span> <i class="bi bi-box2-heart"></i> Dashboard </span>-->
                             </a>
                         </li>
                         <li>
@@ -177,13 +177,13 @@
                         <li class="sideLink"><a href="manageMedecine.jsp"> Manage medicine </a></li>
 
                         <li><a href="">Manufacturer</a></li>
-                        <li>
+<!--                        <li>
                             <span><i class="bi bi-receipt"></i></span>
                             <span> Invoice </span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
                         <li class="sideLink"><a href="">Add Invoice </a></li>
-                        <li class="sideLink"><a href="">Manage Invoice </a></li>
+                        <li class="sideLink"><a href="">Manage Invoice </a></li>-->
                         <li>
                             <span><i class="bi bi-flag"></i></span>
                             <span>User management</span>

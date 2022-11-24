@@ -45,7 +45,7 @@ public class DeleteMedServlet extends HttpServlet {
             out.print( med.deleteMedicine(id));
             response.sendRedirect("manageMedecine.jsp");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteMedServlet at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet DeleteMedServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

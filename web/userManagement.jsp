@@ -160,7 +160,6 @@
                         <li>
                             <a href="">
                                 <span><i class="bi bi-speedometer"></i></span>
-                                <span> <i class="bi bi-box2-heart"></i> Dashboard </span>
                             </a>
                         </li>
                         <li>
@@ -191,7 +190,7 @@
                 </div>
             </div>
             <div  class=" p-5 m-5">
-                <h1>All medecine </h1>
+                <h1>All users </h1>
                 <table class="table  table-bordered">
                     <thead class="">
                         <tr>
@@ -214,11 +213,11 @@
                             <td><%=  users.get(i).getRole()%></td>
                             <td class="d-flex justify-space-around">
                                 <!-- Button trigger modal -->
-                                <a  href="editMedecine.jsp?id=<%= users.get(i).getId()%>" class="btn btn-success m-1" data-toggle="modal" data-target="#exampleModalLong">
+                                <a  href="editUser.jsp?id=<%= users.get(i).getId()%>" class="btn btn-success m-1" data-toggle="modal" data-target="#exampleModalLong">
                                     Edit
                                 </a>
 
-                                <a  href="DeleteMedServlet?id=<%= users.get(i).getId()%>" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
+                                <a  href="DeleteUserServlet?id=<%= users.get(i).getId()%>" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
                                     delete 
                                 </a>
                             </td>

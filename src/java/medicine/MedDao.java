@@ -132,9 +132,7 @@ public class MedDao {
         } catch (Exception e) {
             e.printStackTrace();
             res = false;
-
         }
-
         return res;
     }
 

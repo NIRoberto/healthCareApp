@@ -1,11 +1,13 @@
-<%@page import="login.User"%>
-<%@page import="java.util.List"%>
-<%@page import="medicine.MedModel"%>
-<%@page import="medicine.MedDao"%>
+<%-- 
+    Document   : pharmacy
+    Created on : Nov 19, 2022, 3:26:15 PM
+    Author     : CSE
+--%>
+
 <%@page import="login.DBConnect"%>
-
-
-
+<%@page import="login.UserDatabase"%>
+<%@page import="login.User"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,8 +24,7 @@
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
-            />
-
+            />`
         <style>
             * {
                 margin: 0;
@@ -34,8 +35,6 @@
             body .content {
                 display: grid;
                 grid-template-columns: 15% 85%;
-
-                grid-template-rows: auto;
             }
 
             body .content .sidebar {
@@ -61,28 +60,13 @@
             body .content ul li:hover {
                 background-color: rgb(20, 110, 68);
             }
-            body .main form {
-                /* grid-template-rows: repeat(2, 50%); */
+            body .main {
+                display: grid;
+                grid-template-columns: repeat(2, 50%);
+                grid-template-rows: repeat(2, 50%);
+                place-items: center;
                 gap: 0rem;
             }
-
-            body .main form {
-                background-color: white;
-                display: grid;
-                place-items: center;
-                grid-template-columns: repeat(2, 50%);
-            }
-            body .main form .form {
-                /* border: 1px solid red; */
-                display: flex;
-                flex-direction: column;
-                /* justify-content: space-around; */
-            }
-            body .main form .form div {
-                display: flex;
-                flex-direction: column;
-            }
-
             body .main div {
                 padding: 2rem;
                 display: flex;
@@ -99,26 +83,40 @@
                 display: flex;
                 flex-direction: column;
             }
-
-            table{
-                width: 80vh;
+            .content .main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
+            form {
+                display: flex;
+                flex-direction: column;
+
+                /* margin-top: 13rem; */
+            }
+
+            form div {
+                display: flex;
+                flex-direction: column;
+            }
+
         </style>
+
+
     </head>
     <body>
-
-        <%
-            MedDao medData = new MedDao(DBConnect.getConnection());
-            List<MedModel> Med = MedDao.getAllMedidcine();
-            User user = (User) session.getAttribute("user");
+        <nav
+            class="navbar navbar-expand-lg d-flex justify-content-between shadow-sm p-4 navbar-light bg-white"
+            >
+            <%
+            int id = Integer.parseInt(request.getParameter("id"));
+            UserDatabase  user = new UserDatabase(DBConnect.getConnection());
+            User med = UserDatabase.singleUser(id);
+            User users = (User) session.getAttribute("user");
             if (user == null) {
                 response.sendRedirect("login.jsp");
             }
         %>
-
-        <nav
-            class="navbar navbar-expand-lg d-flex justify-content-between shadow-sm p-4 navbar-light bg-white"
-            >
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img
@@ -128,7 +126,7 @@
                         height="24"
                         class="rounded m-2"
                         />
-                    HopeSolution
+                    HopeSolution 
                 </a>
                 <button
                     class="navbar-toggler"
@@ -144,14 +142,15 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" aria-current="page" href="index.jsp">Home</a>
+                            <a href="index.jsp"></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
                         </li>
                     </ul>
                     <div class="d-flex">
-                        <p class="h6 p-2">Admin</p>
+                        <p class="h6 p-2">User Logged in </p>
                         <a href="logout.jsp" class="btn btn-success py-2 px-4">Logout</a>
                     </div>
                 </div>
@@ -163,7 +162,7 @@
                     <ul>
                         <li>
                             <a href="">
-                                <span><i class="bi bi-speedometer"></i></span>
+                                <!--<span><i class="bi bi-speedometer"></i></span>-->
                                 <!--<span> <i class="bi bi-box2-heart"></i> Dashboard </span>-->
                             </a>
                         </li>
@@ -172,10 +171,8 @@
                             <span>Medicine</span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
-
                         <li class="sideLink"><a href="addMedecine.jsp"> Add Medicine </a></li>
                         <li class="sideLink"><a href="manageMedecine.jsp"> Manage medicine </a></li>
-
                         <li><a href="">Manufacturer</a></li>
 <!--                        <li>
                             <span><i class="bi bi-receipt"></i></span>
@@ -186,7 +183,7 @@
                         <li class="sideLink"><a href="">Manage Invoice </a></li>-->
                         <li>
                             <span><i class="bi bi-flag"></i></span>
-                            <span>User management</span>
+                            <span>User Management</span>
                             <span><i class="bi bi-chevron-down"></i></span>
                         </li>
                         <li class="sideLink"><a href="addUser.jsp">Add user </a></li>
@@ -194,59 +191,35 @@
                     </ul>
                 </div>
             </div>
-
-            <div  class=" p-5 m-5">
-
-                <h1>All medecine </h1>
-                <table class="table  table-bordered">
-                    <thead class="">
-                        <tr>
-                            <th scope="col">id</th>
-                            <!--<th scope="col">Image</th>-->
-                            <th scope="col">Name</th>
-                            <th scope="col">Rate</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Manufacturer</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (int i = 0; i < Med.size(); i++) {%>
-
-                        <tr  >
-                            <th scope="row"><%=  Med.get(i).getId()%></th>
-                            <!--                            <td>
-                                                            <img
-                                                                class="h-25 w-25"
-                                                                src="https://i0.wp.com/www.recsmedix.com/wp-content/uploads/2018/03/c247-Image-1.jpg?fit=850%2C850&ssl=1"
-                                                                alt="C 24/7"
-                                                                />
-                                                        </td>-->
-                            <td><%=  Med.get(i).getName()%></td>
-                            <td><%=  Med.get(i).getRate()%></td>
-                            <td><%=  Med.get(i).getQuantity()%></td>
-                            <td><%=  Med.get(i).getManufacturer()%></td>
-                            <td><%=  Med.get(i).getCategory()%></td>
-                            <td class="d-flex justify-space-around">
-                                <!-- Button trigger modal -->
-                                <a  href="editMedecine.jsp?id=<%= Med.get(i).getId()%>" class="btn btn-success m-1" data-toggle="modal" data-target="#exampleModalLong">
-                                    Edit
-                                </a>
-
-                                <a  href="DeleteMedServlet?id=<%= Med.get(i).getId()%>" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
-                                    delete 
-                                </a>
-                            </td>
-                        </tr>
-                        <%  }%>
-
-                    </tbody>
-                </table>
+            <div class="main">
+                <form action="EditUserServlet"  method="post">
+                    <h1>Add user</h1>
+                       <div>
+                            <input type="hidden" id="custId" name="id" value="<%= med.getId()%>" >
+                        </div>     
+                    <div>
+                        <label class="form-label"> User name: </label>
+                        <input type="text" class="form-control" name="name" value="<%= med.getName()%>" required/>
+                    </div>
+                    <div>
+                        <label class="form-label"> Email </label>
+                        <input type="email" class="form-control" name="email" value="<%= med.getEmail()%>" required/>
+                    </div>
+                    <div>
+                        <label class="form-label"> Password </label>
+                        <input type="password" class="form-control" name="password" value="<%= med.getPassword()%>" required/>
+                    </div>
+                    <!-- comment -->
+                    <div>
+                        <label class="form-label"> Password </label>
+                        <input type="text" placeholder="admin or local"  class="form-control" name="role" value="<%= med.getRole()%>" required/>
+                    </div>
+                    <div>
+                        <button   class="btn btn-success">Save</button>
+               
+                    </div>
+                </form>
             </div>
         </div>
-        <!-- JavaScript Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     </body>
 </html>

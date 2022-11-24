@@ -21,6 +21,7 @@ import login.User;
  */
 @WebServlet(urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,32 +39,41 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet LoginServlet</title>");
+            out.println("         <link\n"
+                    + "            href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\"\n"
+                    + "            rel=\"stylesheet\"\n"
+                    + "            integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\"\n"
+                    + "            crossorigin=\"anonymous\"\n"
+                    + "            />\n"
+                    + "        <link\n"
+                    + "            rel=\"stylesheet\"\n"
+                    + "            href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css\"\n"
+                    + "            /> ");
             out.println("</head>");
             out.println("<body>");
-            String email  =  request.getParameter("email");
-            String password =  request.getParameter("password");
-            try{
-             UserDatabase db = new UserDatabase(DBConnect.getConnection());
-             User user   =  db.Login(email, password);
-             
-             if(user != null){
-                HttpSession session =  request.getSession();
-                session.setAttribute("user", user);
-                response.sendRedirect("pharmacy.jsp");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            try {
+                UserDatabase db = new UserDatabase(DBConnect.getConnection());
+                User user = db.Login(email, password);
+
+                if (user != null) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                     response.sendRedirect("addMedecine.jsp");
+                } else {
+                        out.println("<h5 class=\"text-danger\"> Incorrect email or password </h5>");
+                        out.println("<a class=\"btn btn-success\" href=\"login.jsp\">Back to login </a>");
+                }
+            } catch (Exception e) {
+                out.println(e);
             }
-            else{ 
-            out.print("user not found");
-            }
-            }
-            catch(Exception e){
-              out.println(e);
-            }
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-       
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
